@@ -13,14 +13,14 @@
 </head>
 <body>
 <div class="container">
-    <form action="product/edit/${product.id}" method="POST">
+    <form action="/product/edit/${product.id}" method="POST">
         <div class="form-group">
             <label for="inputName">Name</label>
             <input type="text" class="form-control" id="inputName" required name="name" value="${product.name}">
             <label for="inputPrice">Price</label>
-            <input type="number" class="form-control" id="inputPrice" step=".01" min="0" value="${product.price} name="price">
+            <input type="text" class="form-control" id="inputPrice" value="${product.price?string['0.##']}" name="price">
             <br>
-            <input type="submit" class="btn btn-dark" value="Add">
+            <input type="submit" class="btn btn-dark" value="Update">
         </div>
     </form>
 </div>
