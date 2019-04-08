@@ -3,18 +3,10 @@ package com.study.onlineshop;
 import com.study.onlineshop.dao.jdbc.JdbcProductDao;
 import com.study.onlineshop.service.ProductService;
 import com.study.onlineshop.service.impl.DefaultProductService;
-import com.study.onlineshop.web.servlet.AddProductServlet;
-import com.study.onlineshop.web.servlet.DeleteProductServlet;
-import com.study.onlineshop.web.servlet.EditProductServlet;
-import com.study.onlineshop.web.servlet.ProductsServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.sqlite.SQLiteDataSource;
-
-import javax.sql.DataSource;
-import java.io.InputStream;
-import java.util.Properties;
 
 public class Starter {
     public static void main(String[] args) throws Exception {
