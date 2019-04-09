@@ -16,7 +16,7 @@ public class EditProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        // products/edit/5
         int id = getId(request.getRequestURI());
         PageGenerator pageGenerator = PageGenerator.instance();
         Product product = productService.getById(id);

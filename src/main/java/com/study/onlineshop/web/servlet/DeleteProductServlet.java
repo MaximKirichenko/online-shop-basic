@@ -15,7 +15,7 @@ public class DeleteProductServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uri = req.getRequestURI();
         int index = uri.lastIndexOf("/");
-        int id = Integer.valueOf(uri.substring(index+1, uri.length()));
+        int id = Integer.valueOf(uri.substring(index + 1, uri.length()));
         productService.delete(id);
         resp.sendRedirect("/products");
     }

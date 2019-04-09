@@ -1,0 +1,12 @@
+<web-app>
+    <servlet>
+        <servlet-name>productsServlet</servlet-name>
+        <servlet-class>com.study.onlineshop.web.servlet.ProductsServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>productsServlet</servlet-name>
+        <url-pattern>/products</url-pattern>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+</web-app>
