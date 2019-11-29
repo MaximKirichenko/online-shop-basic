@@ -6,18 +6,8 @@
     </servlet>
 
     <servlet>
-        <servlet-name>addProduct</servlet-name>
-        <servlet-class>com.study.onlineshop.web.servlet.AddProductServlet</servlet-class>
-    </servlet>
-
-    <servlet>
         <servlet-name>editProduct</servlet-name>
         <servlet-class>com.study.onlineshop.web.servlet.EditProductServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>deleteProduct</servlet-name>
-        <servlet-class>com.study.onlineshop.web.servlet.DeleteProductServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

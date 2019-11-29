@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+// TODO: add delete product mapping on POST request to /product/delete/* where * is product id
 public class DeleteProductServlet extends HttpServlet {
     private ProductService productService = (ProductService) ServiceLocator.getService("productService");
 
@@ -16,7 +17,7 @@ public class DeleteProductServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uri = req.getRequestURI();
         int index = uri.lastIndexOf("/");
-        int id = Integer.valueOf(uri.substring(index+1, uri.length()));
+        int id = Integer.valueOf(uri.substring(index + 1, uri.length()));
         productService.delete(id);
         resp.sendRedirect("/products");
     }

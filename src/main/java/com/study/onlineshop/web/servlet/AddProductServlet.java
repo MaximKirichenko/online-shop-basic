@@ -14,33 +14,16 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
+// TODO: display add product page on GET request for /product/add
+// TODO: add product on POST request for /product/add
 public class AddProductServlet extends HttpServlet {
-    private ProductService productService = (ProductService) ServiceLocator.getService("productService");
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PageGenerator pageGenerator = PageGenerator.instance();
-
-        HashMap<String, Object> parameters = new HashMap<>();
-
-        String page = pageGenerator.getPage("add", parameters);
-        response.getWriter().write(page);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter("name");
-        double price = Double.valueOf(request.getParameter("price"));
-        Product product = new Product();
-        product.setName(name);
-        product.setPrice(price);
-        int id = productService.add(product);
-        product.setId(id);
-        response.sendRedirect("/products");
-    }
-
-    public void setProductService(ProductService productService) {
-        this.productService = productService;
     }
 
 }
