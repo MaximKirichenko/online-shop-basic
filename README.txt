@@ -1,0 +1,1 @@
+Migration example from Servlets to Spring MVC (3-web-xml-migration)
