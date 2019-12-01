@@ -4,6 +4,12 @@ import com.study.onlineshop.dao.ProductDao;
 import com.study.onlineshop.dao.jdbc.mapper.ProductRowMapper;
 import com.study.onlineshop.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -11,100 +17,54 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("SqlResolve")
 @Repository
 public class JdbcProductDao implements ProductDao {
-
-    private static final String GET_ALL_SQL = "SELECT id, name, price FROM product";
-    private static final String ADD_SQL = "INSERT INTO product(name, price) VALUES (?, ?);";
-    private static final String DELETE_SQL = "DELETE FROM product WHERE id = ?;";
-    private static final String UPDATE_SQL = "UPDATE product SET name = ?, price = ? WHERE id = ?;";
-    private static final ProductRowMapper PRODUCT_ROW_MAPPER = new ProductRowMapper();
-
     @Autowired
-    private DataSource dataSource;
+    private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private RowMapper<Product> rowMapper;
 
     @Override
     public List<Product> getAll() {
-        try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(GET_ALL_SQL)) {
-
-            List<Product> products = new ArrayList<>();
-            while (resultSet.next()) {
-                Product product = PRODUCT_ROW_MAPPER.mapRow(resultSet);
-                products.add(product);
-            }
-
-            return products;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+        String query = "SELECT id, name, price FROM product";
+        return jdbcTemplate.query(query, rowMapper);
     }
 
     @Override
     public Product getById(int id) {
-        String sql = GET_ALL_SQL + " WHERE id = ?";
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, id);
-            try (ResultSet resultSet = statement.executeQuery();) {
-                if (resultSet.next()) {
-                    return PRODUCT_ROW_MAPPER.mapRow(resultSet);
-                }
-                return null;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+        String query = "SELECT id, name, price FROM product WHERE id = ?";
+        return jdbcTemplate.query(query, rowMapper, id).stream().findFirst().orElse(null);
     }
 
     @Override
     public int add(Product product) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(ADD_SQL)) {
-            statement.setString(1, product.getName());
-            statement.setDouble(2, product.getPrice());
-            statement.executeUpdate();
+        String query = "INSERT INTO product(name, price) VALUES (?, ?);";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
-            ResultSet resultSet = statement.getGeneratedKeys();
-            resultSet.next();
-            int id = statement.getGeneratedKeys().getInt(1);
-            return id;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+        jdbcTemplate.update(con -> {
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.setString(1, product.getName());
+            preparedStatement.setDouble(2, product.getPrice());
+            return preparedStatement;
+        }, keyHolder);
+
+        return (int)keyHolder.getKey();
     }
 
     @Override
     public void delete(int id) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_SQL)) {
-            statement.setInt(1, id);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+        String query = "DELETE FROM product WHERE id = ?;";
+        jdbcTemplate.update(query, id);
     }
 
     @Override
     public void update(Product product) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
-            statement.setString(1, product.getName());
-            statement.setDouble(2, product.getPrice());
-            statement.setInt(3, product.getId());
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
+        String query = "UPDATE product SET name = ?, price = ? WHERE id = ?;";
+        jdbcTemplate.update(query, ps -> {
+            ps.setString(1, product.getName());
+            ps.setDouble(2, product.getPrice());
+            ps.setInt(3, product.getId());
+        });
     }
 }
