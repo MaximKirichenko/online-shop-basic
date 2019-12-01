@@ -19,7 +19,7 @@ public class ServiceLocator {
         jdbcProductDao.setDataSource(dataSource);
 
         // configure services
-        ProductService productService = new DefaultProductService(jdbcProductDao);
+        ProductService productService = new DefaultProductService();
 
         SERVICE_REGISTRY.put("productDao", jdbcProductDao);
         SERVICE_REGISTRY.put("productService", productService);

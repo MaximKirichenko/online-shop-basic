@@ -2,8 +2,8 @@ package com.study.onlineshop.controller;
 
 import com.study.onlineshop.entity.Product;
 import com.study.onlineshop.service.ProductService;
-import com.study.onlineshop.service.ServiceLocator;
 import com.study.onlineshop.web.templater.PageGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +22,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/")
 public class OnlineShopController {
-    private ProductService productService = (ProductService) ServiceLocator.getService("productService");
+    @Autowired
+    public ProductService productService;
 
     @RequestMapping(method = RequestMethod.GET)
     public void listAllProducts(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -54,7 +55,7 @@ public class OnlineShopController {
     public void editEntry(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
         double price = Double.valueOf(request.getParameter("price"));
-        if(name == null || name.isEmpty() || price <= 0d){
+        if (name == null || name.isEmpty() || price <= 0d) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } else {
             int id = getId(request.getRequestURI());
@@ -89,14 +90,14 @@ public class OnlineShopController {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uri = req.getRequestURI();
         int index = uri.lastIndexOf("/");
-        int id = Integer.valueOf(uri.substring(index+1, uri.length()));
+        int id = Integer.valueOf(uri.substring(index + 1, uri.length()));
         productService.delete(id);
         resp.sendRedirect("/products");
     }
 
-    private int getId(String uri){
+    private int getId(String uri) {
         int index = uri.lastIndexOf("/");
-        int id = Integer.valueOf(uri.substring(index+1, uri.length()));
+        int id = Integer.valueOf(uri.substring(index + 1, uri.length()));
         return id;
     }
 

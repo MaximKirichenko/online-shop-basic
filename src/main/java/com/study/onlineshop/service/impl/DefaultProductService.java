@@ -3,15 +3,15 @@ package com.study.onlineshop.service.impl;
 import com.study.onlineshop.dao.ProductDao;
 import com.study.onlineshop.entity.Product;
 import com.study.onlineshop.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class DefaultProductService implements ProductService {
+    @Autowired
     private ProductDao productDao;
-
-    public DefaultProductService(ProductDao productDao) {
-        this.productDao = productDao;
-    }
 
     @Override
     public List<Product> getAll() {
@@ -38,7 +38,7 @@ public class DefaultProductService implements ProductService {
     public void update(int id, String name, double price) {
         Product product = getById(id);
         boolean isModified = !product.getName().equals(name) || product.getPrice() != price;
-        if(isModified) {
+        if (isModified) {
             product.setName(name);
             product.setPrice(price);
             productDao.update(product);
