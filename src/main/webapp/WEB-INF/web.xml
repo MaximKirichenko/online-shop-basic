@@ -1,8 +1,9 @@
 <web-app>
 
     <servlet>
-        <servlet-name>getAllProducts</servlet-name>
-        <servlet-class>com.study.onlineshop.web.servlet.ProductsServlet</servlet-class>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet>
@@ -21,8 +22,7 @@
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>getAllProducts</servlet-name>
-        <url-pattern>/products</url-pattern>
+        <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
@@ -31,18 +31,14 @@
         <url-pattern>/products/add</url-pattern>
     </servlet-mapping>
 
-
     <servlet-mapping>
         <servlet-name>editProduct</servlet-name>
         <url-pattern>/product/edit/*</url-pattern>
     </servlet-mapping>
 
-
     <servlet-mapping>
         <servlet-name>deleteProduct</servlet-name>
         <url-pattern>/product/delete/*</url-pattern>
     </servlet-mapping>
-
-
 
 </web-app>
