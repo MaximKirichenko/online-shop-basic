@@ -6,39 +6,9 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
-    <servlet>
-        <servlet-name>addProduct</servlet-name>
-        <servlet-class>com.study.onlineshop.web.servlet.AddProductServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>editProduct</servlet-name>
-        <servlet-class>com.study.onlineshop.web.servlet.EditProductServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>deleteProduct</servlet-name>
-        <servlet-class>com.study.onlineshop.web.servlet.DeleteProductServlet</servlet-class>
-    </servlet>
-
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>addProduct</servlet-name>
-        <url-pattern>/products/add</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>editProduct</servlet-name>
-        <url-pattern>/product/edit/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>deleteProduct</servlet-name>
-        <url-pattern>/product/delete/*</url-pattern>
     </servlet-mapping>
 
 </web-app>
