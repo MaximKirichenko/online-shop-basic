@@ -2,13 +2,10 @@ package com.study.onlineshop.controller;
 
 import com.study.onlineshop.entity.Product;
 import com.study.onlineshop.service.ProductService;
-import com.study.onlineshop.web.templater.PageGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * @author Maksym Kyrychenko
@@ -20,24 +17,17 @@ public class OnlineShopController {
 
     @Autowired
     public ProductService productService;
-    @Autowired
-    public PageGenerator pageGenerator;
 
-    @ResponseBody
     @GetMapping
-    public String listAllProducts() {
-        HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("products", productService.getAll());
-        return pageGenerator.getPage("products", parameters);
+    public String listAllProducts(Model model) {
+        model.addAttribute("products", productService.getAll());
+        return "products";
     }
 
-    @ResponseBody
     @GetMapping(path = "product/edit/{productId}")
-    public String editPage(@PathVariable int productId) {
-        Product product = productService.getById(productId);
-        HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("product", product);
-        return pageGenerator.getPage("edit", parameters);
+    public String editPage(@PathVariable int productId, Model model) {
+        model.addAttribute("product", productService.getById(productId));
+        return "edit";
     }
 
     @PostMapping(path = "product/edit/{productId}")
@@ -46,14 +36,13 @@ public class OnlineShopController {
         return "redirect:/";
     }
 
-    @ResponseBody
     @GetMapping(path = "product/add")
     protected String addProductPage() {
-        return pageGenerator.getPage("add", new HashMap<>());
+        return "add";
     }
 
     @PostMapping(path = "product/add")
-    protected String addProduct(@RequestParam String name, @RequestParam double price) throws IOException {
+    protected String addProduct(@RequestParam String name, @RequestParam double price) {
         Product product = new Product();
         product.setName(name);
         product.setPrice(price);
