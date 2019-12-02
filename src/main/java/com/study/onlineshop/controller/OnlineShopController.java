@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
  * @author Maksym Kyrychenko
  * @since 01.12.2019
  */
-@Controller
+@RestController
 @RequestMapping("/")
 public class OnlineShopController {
 
