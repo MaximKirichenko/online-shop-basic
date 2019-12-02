@@ -65,6 +65,14 @@
             <version>2.3.23</version>
         </dependency>
 
+        <!-- Log -->
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+
         <!-- DB -->
         <dependency>
             <groupId>org.xerial</groupId>
