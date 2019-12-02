@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class OnlineShopController {
 
     @Autowired
-    public ProductService productService;
+    private ProductService productService;
 
     @GetMapping
     public String listAllProducts(Model model) {
